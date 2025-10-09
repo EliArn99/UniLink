@@ -1,0 +1,48 @@
+<h1>Register</h1>{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Регистрация{% endblock %}
+
+{% block content %}
+<div class="min-h-[70vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="w-full max-w-lg space-y-8 bg-white p-8 sm:p-10 rounded-xl shadow-2xl border-t-4 border-primary">
+        
+        <!-- Заглавие и Описание -->
+        <div>
+            <h2 class="mt-2 text-3xl font-extrabold text-gray-900 text-center">
+                Създаване на нов UniLink акаунт
+            </h2>
+            <p class="mt-2 text-center text-sm text-gray-600">
+                Моля, попълнете данните си. Вашият акаунт ще бъде активен след
+                <strong class="text-secondary font-semibold">одобрение от администратор.</strong>
+            </p>
+        </div>
+        
+        <!-- Формуляр за Регистрация -->
+        <form class="mt-8 space-y-6" method="POST">
+            {% csrf_token %}
+            
+            <!-- Рендиране на формуляра с Crispy-Forms -->
+            {{ form|crispy }}
+            
+            <div>
+                <button type="submit" 
+                        class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition duration-150 ease-in-out">
+                    Изпрати за Одобрение
+                </button>
+            </div>
+        </form>
+
+        <!-- Връзка за Вход -->
+        <div class="text-center mt-6">
+            <p class="text-sm text-gray-600">
+                Вече имате акаунт?
+                <a href="{% url 'unilink:login' %}" class="font-medium text-primary hover:text-primary/80 transition duration-150 ease-in-out">
+                    Вход тук
+                </a>
+            </p>
+        </div>
+
+    </div>
+</div>
+{% endblock content %}

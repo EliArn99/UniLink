@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}UniLink - Свързваме Талантите с Възможности{% endblock %}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        /* Задаване на основен шрифт */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fb; /* Много светъл фон */
+        }
+    </style>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary': '#1d4ed8', /* Tailwind Blue 700 */
+                        'primary-dark': '#1e40af', /* Blue 800 за hover */
+                        'secondary': '#facc15', /* Tailwind Amber 400 */
+                        'secondary-dark': '#d97706', /* Amber 600 за hover */
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="min-h-screen flex flex-col antialiased">
+
+<nav class="bg-white shadow-lg sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+
+            <div class="flex-shrink-0">
+                <a href="{% url 'unilink:home' %}"
+                   class="text-3xl font-extrabold text-primary hover:text-primary-dark transition duration-150">
+                    UniLink
+                </a>
+            </div>
+
+            <div class="flex items-center space-x-6">
+                {% if user.is_authenticated %}
+
+                    <div class="hidden sm:ml-6 sm:flex sm:space-x-4">
+                        {% if user.is_superuser or user.is_staff %}
+                            <a href="{% url 'admin:index' %}" target="_blank"
+                               class="text-red-600 hover:text-red-800 px-3 py-2 text-sm font-semibold transition duration-150 border-b-2 border-transparent hover:border-red-500">
+                                Админ Панел
+                            </a>
+                        {% endif %}
+
+                        <a href="{% url 'unilink:dashboard' %}"
+                           class="text-gray-700 hover:text-primary px-3 py-2 text-sm font-medium transition duration-150 border-b-2 border-transparent hover:border-primary">
+                            Табло
+                        </a>
+                    </div>
+
+                    <div class="flex items-center space-x-4">
+                             <span class="text-sm font-semibold text-gray-600 hidden sm:inline">
+                                Здравей, {{ user.first_name|default:user.username }} ({{ user.get_role_display }})
+                            </span>
+                        <form method="post" action="{% url 'unilink:logout' %}" class="inline">
+                            {% csrf_token %}
+                            <button type="submit"
+                                    class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-md transition duration-150">
+                                Изход 🚪
+                            </button>
+                        </form
+                    </div>
+                {% else %}
+                    <a href="{% url 'unilink:home' %}"
+                       class="text-gray-600 hover:text-primary px-3 py-2 text-sm font-medium transition duration-150 border-b-2 border-transparent hover:border-primary">
+                        Начало
+                    </a>
+
+                    <a href="{% url 'unilink:application_choice' %}"
+                       class="text-gray-600 hover:text-primary px-3 py-2 text-sm font-medium transition duration-150 border-b-2 border-transparent hover:border-primary">
+                        Кандидатстване
+                    </a>
+
+                    <a href="{% url 'unilink:login' %}"
+                       class="bg-primary hover:bg-primary-dark text-white px-5 py-2 rounded-xl text-sm font-bold shadow-lg shadow-blue-500/50 transition duration-150">
+                        Вход ➡️
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 w-full z-10">
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.tags == 'success' %}
+                <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4 rounded-md shadow-md"
+                     role="alert">
+                    <p class="font-bold">Успех!</p>
+                    <p>{{ message }}</p>
+                </div>
+            {% elif message.tags == 'error' %}
+                <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4 rounded-md shadow-md"
+                     role="alert">
+                    <p class="font-bold">Грешка!</p>
+                    <p>{{ message }}</p>
+                </div>
+            {% else %}
+                <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4 rounded-md shadow-md"
+                     role="alert">
+                    <p class="font-bold">Информация:</p>
+                    <p>{{ message }}</p>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+</div>
+
+<main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+    {% block content %}
+    {% endblock content %}
+</main>
+
+<footer class="bg-gray-900 text-gray-400 p-6 text-center text-sm border-t border-gray-700">
+    <div class="max-w-7xl mx-auto">
+        <p>&copy; 2024 UniLink. Всички права запазени. Изграден с <span class="text-red-500">❤️</span> и
+            Django/Tailwind.</p>
+    </div>
+</footer>
+</body>
+</html>

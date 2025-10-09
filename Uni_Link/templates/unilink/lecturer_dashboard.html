@@ -1,0 +1,66 @@
+
+{% extends 'unilink/base.html' %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
+    
+    <!-- Заглавна Секция -->
+    <header class="bg-white shadow rounded-xl p-6 mb-8">
+        <h1 class="text-4xl font-extrabold text-gray-900">
+            Здравейте, проф. {{ user.last_name }}!
+        </h1>
+        <p class="mt-2 text-lg text-gray-500">
+            Добре дошли в Таблото на Преподавателя. Тук можете да управлявате Вашите курсове и оценки.
+        </p>
+    </header>
+
+    <!-- Идентификационна Карта и Статистика -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+        <!-- Потребителска Карта -->
+        <div class="lg:col-span-1 bg-white shadow-xl rounded-xl overflow-hidden p-6 border-t-4 border-secondary">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4 flex items-center">
+                <svg class="w-6 h-6 text-secondary mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.864 23.864 0 0112 15c-3.18 0-6.35-.615-9-1.745M16 4h2a2 2 0 012 2v10a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2m4 12V9"></path></svg>
+                Профил
+            </h2>
+            <p class="text-gray-600 mb-2"><strong class="text-gray-700">Служебен Имейл:</strong> <span class="text-secondary font-medium">{{ id_info }}</span></p>
+            <p class="text-gray-600 mb-2"><strong class="text-gray-700">Личен Имейл:</strong> {{ user.email }}</p>
+            <p class="text-gray-600 mb-2"><strong class="text-gray-700">Роля:</strong> <span class="text-secondary">{{ user.get_role_display }}</span></p>
+        </div>
+        
+        <!-- Кратък Статистически Блок (Placeholder) -->
+        <div class="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-white p-6 rounded-xl shadow border-l-4 border-primary">
+                <p class="text-sm font-medium text-gray-500">Курсове за Семестъра</p>
+                <p class="mt-1 text-3xl font-bold text-gray-900">3</p>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow border-l-4 border-green-500">
+                <p class="text-sm font-medium text-gray-500">Чакащи Оценки</p>
+                <p class="mt-1 text-3xl font-bold text-gray-900">18</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Секция за Курсове, които преподавателят води (Placeholder) -->
+    <section class="bg-white shadow rounded-xl p-6">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-4 border-b pb-2">Моите Курсове</h2>
+        <div class="space-y-4">
+            <!-- Карта на Курса -->
+            <div class="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition duration-150 border-l-4 border-primary">
+                <h3 class="font-bold text-lg text-gray-900">Програмиране с Python</h3>
+                <p class="text-sm text-gray-500 mt-1">Групи: 3 | Общо Студенти: 120</p>
+                <a href="#" class="mt-2 inline-block text-primary hover:text-primary/80 font-semibold">Управление на Оценки &rarr;</a>
+            </div>
+
+            <div class="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition duration-150 border-l-4 border-secondary">
+                <h3 class="font-bold text-lg text-gray-900">Разширени Бази Данни</h3>
+                <p class="text-sm text-gray-500 mt-1">Групи: 1 | Общо Студенти: 35</p>
+                <a href="#" class="mt-2 inline-block text-secondary hover:text-secondary/80 font-semibold">Управление на Оценки &rarr;</a>
+            </div>
+        </div>
+    </section>
+
+</div>
+{% endblock content %}

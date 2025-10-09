@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load tailwind_filters %}
+
+{% block title %}Вход в UniLink{% endblock %}
+
+{% block content %}
+<div class="flex items-center justify-center min-h-screen bg-gray-50 p-4">
+    <div class="w-full max-w-md bg-white p-8 md:p-10 rounded-xl shadow-2xl transition duration-500 hover:shadow-3xl">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-extrabold text-blue-800">Добре дошли обратно!</h1>
+            <p class="text-gray-500 mt-2">Вход за Студенти (Факултетен №) и Преподаватели (Служебен имейл)</p>
+        </div>
+
+        <!-- Съобщения за Грешка от CustomLoginView -->
+        {% if error %}
+            <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4 rounded-md" role="alert">
+                <p class="font-bold">Грешка при вход:</p>
+                <p>{{ error }}</p>
+            </div>
+        {% endif %}
+
+        <form method="post" action="{% url 'unilink:login' %}" class="space-y-6">
+            {% csrf_token %}
+            
+            <!-- Рендиране на формуляра с Tailwind стилове -->
+            {{ form|crispy }}
+            
+            <button type="submit" 
+                class="w-full py-3 px-4 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-300 ease-in-out transform hover:scale-[1.01]">
+                Вход
+            </button>
+        </form>
+
+        <div class="mt-6 text-center text-sm">
+{#            <p class="text-gray-600">#}
+{#                Нямате одобрен акаунт? #}
+{#                <a href="{% url 'unilink:register' %}" class="font-medium text-blue-600 hover:text-blue-500">#}
+{#                    Регистрирайте се тук#}
+{#                </a>#}
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

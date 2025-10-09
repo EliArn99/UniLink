@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}{{ form_title }}{% endblock %}
+
+{% block content %}
+<div class="flex justify-center py-10">
+    <div class="bg-white p-8 sm:p-12 rounded-xl shadow-2xl w-full max-w-4xl border border-gray-100">
+
+        <h1 class="text-3xl font-extrabold text-gray-900 mb-2">{{ form_title }}</h1>
+        <p class="text-gray-600 mb-8">Попълнете внимателно всички полета, за да изпратите вашето кандидатстване.</p>
+
+        <form method="post" novalidate>
+            {% csrf_token %}
+
+            {% if user_form.non_field_errors or form.non_field_errors %}
+                <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4 rounded-md font-medium">
+                    <p>Възникна грешка при валидацията:</p>
+                    {{ user_form.non_field_errors }}
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            <fieldset class="border border-gray-300 p-6 rounded-lg mb-8 bg-gray-50">
+                <legend class="text-xl font-bold text-primary px-2">1. Потребителска Регистрация</legend>
+
+                <p class="text-sm text-gray-500 mb-4">Тези данни ще се използват за вход в системата.</p>
+
+                {% for field in user_form %}
+                    <div class="mb-4">
+                        <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700">
+                            {{ field.label }}
+                            {% if field.field.required %}
+                                <span class="text-red-500">*</span>
+                            {% endif %}
+                        </label>
+                        {{ field }}
+                        {% if field.errors %}
+                            <p class="text-red-500 text-xs mt-1 font-semibold">{{ field.errors.0 }}</p>
+                        {% endif %}
+                        {% if field.help_text %}
+                            <p class="text-gray-500 text-xs mt-1">{{ field.help_text }}</p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </fieldset>
+
+            <fieldset class="border border-gray-300 p-6 rounded-lg mb-8">
+                <legend class="text-xl font-bold text-primary px-2">2. Детайли за Кандидатстването</legend>
+
+                {% for field in form %}
+                    <div class="mb-4">
+                        <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700">
+                            {{ field.label }}
+                            {% if field.field.required %}
+                                <span class="text-red-500">*</span>
+                            {% endif %}
+                        </label>
+                        {{ field }}
+                        {% if field.errors %}
+                            <p class="text-red-500 text-xs mt-1 font-semibold">{{ field.errors.0 }}</p>
+                        {% endif %}
+                        {% if field.help_text %}
+                            <p class="text-gray-500 text-xs mt-1">{{ field.help_text }}</p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </fieldset>
+
+            <button type="submit"
+                    class="w-full bg-primary hover:bg-primary-dark text-white font-bold py-3 rounded-lg shadow-lg shadow-blue-500/50 transition duration-200 text-lg transform hover:scale-[1.005]">
+                Изпрати Кандидатстването
+            </button>
+
+            <p class="text-center text-sm text-gray-500 mt-4">
+                След изпращане, Вашият профил ще бъде **неактивен** до одобрение от администратор.
+            </p>
+        </form>
+
+    </div>
+</div>
+{% endblock content %}
